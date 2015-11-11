@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CourseWork::Dungeon">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>Dungeon.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CourseWork::Environment">
+    <Position X="2.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAABAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Environment.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CourseWork::Map">
+    <Position X="2.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAARCAAAAAAAAAAAAAABCAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Map.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CourseWork::Wall">
+    <Position X="4.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAgAAAAAAAA=</HashCode>
+      <FileName>Wall.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CourseWork::Party">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Party.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CourseWork::Character">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAABkAQAAAAAAAAAEAAIAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Character.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CourseWork::Monster">
+    <Position X="7" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAgAAAAAA=</HashCode>
+      <FileName>Monster.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CourseWork::PlayableCharacter">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEgAAAEAAAAAAAAAAAAAQCAAAAAAAAAA=</HashCode>
+      <FileName>PlayableCharacter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="CourseWork::Coordinates">
+    <Position X="0.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAYAA=</HashCode>
+      <FileName>Environment.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Enum Name="CourseWork::MapElements">
+    <Position X="8.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Map.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

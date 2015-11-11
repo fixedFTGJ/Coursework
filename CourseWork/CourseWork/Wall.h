@@ -10,7 +10,7 @@ namespace CourseWork
 	class Wall : Environment
 	{
 	public:
-		Wall(XMFLOAT3 position, XMFLOAT3 v1, XMFLOAT3 v2, XMFLOAT3 v3, XMFLOAT3 v4, XMFLOAT3 color);
+		Wall(Coordinates position, XMFLOAT3 v1, XMFLOAT3 v2, XMFLOAT3 v3, XMFLOAT3 v4, XMFLOAT3 color, bool isObstacle);
 	private:
 		VertexPositionColor _vertices[4];
 	};

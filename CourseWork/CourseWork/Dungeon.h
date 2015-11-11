@@ -1,7 +1,7 @@
 #pragma once
 
 #include <list>
-#include "Environment.h"
+#include "Map.h"
 
 using namespace std;
 
@@ -10,9 +10,8 @@ namespace CourseWork
 	class Dungeon
 	{
 	public:
-		Dungeon(list<Environment> objects);
-		list<Environment> GetDungeonObjects();
+		Dungeon(list<Map> maps);
 	private:
-		list<Environment> _objects;
+		list<Map> _maps;
 	};
 }

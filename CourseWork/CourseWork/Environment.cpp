@@ -3,7 +3,7 @@
 
 using namespace CourseWork;
 
-Environment::Environment(XMFLOAT3 position, bool isObstacle)
+Environment::Environment(Coordinates position, bool isObstacle)
 {
 	_position = position;
 	_isObstacle = isObstacle;

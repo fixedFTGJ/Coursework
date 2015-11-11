@@ -3,12 +3,7 @@
 
 using namespace CourseWork;
 
-Dungeon::Dungeon(list<Environment> objects)
+Dungeon::Dungeon(list<Map> maps)
 {
-	_objects = objects;
-}
-
-list<Environment> Dungeon::GetDungeonObjects()
-{
-	return _objects;
+	_maps = maps;
 }

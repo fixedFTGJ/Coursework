@@ -6,13 +6,31 @@ using namespace DirectX;
 
 namespace CourseWork
 {
+	struct Coordinates
+	{
+		int X;
+		int Y;
+
+		Coordinates(int x, int y)
+		{
+			X = x;
+			Y = y;
+		}
+
+		Coordinates()
+		{
+			X = 0;
+			Y = 0;
+		}
+	};
+
 	class Environment
 	{
 	public:
-		Environment(XMFLOAT3 position, bool isObstacle);
+		Environment(Coordinates position, bool isObstacle);
 		bool IsObstacle();
 	private:
-		XMFLOAT3 _position;
+		Coordinates _position;
 		bool _isObstacle;
 	};
 }

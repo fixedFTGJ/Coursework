@@ -59,6 +59,12 @@
     <Filter Include="Content\Environment">
       <UniqueIdentifier>{0ff01030-2bd4-430a-b9cb-732334100e05}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Content\Character">
+      <UniqueIdentifier>{d0bbb674-e4e2-4973-bcfc-2563ebb80c61}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Content\Party">
+      <UniqueIdentifier>{6d5f5921-f9cf-4c40-9f71-b83efe2d0c95}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -72,6 +78,21 @@
     </ClCompile>
     <ClCompile Include="Dungeon.cpp">
       <Filter>Content\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Content\Environment</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Content\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Monster.cpp">
+      <Filter>Content\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayableCharacter.cpp">
+      <Filter>Content\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="Party.cpp">
+      <Filter>Content\Party</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -87,11 +108,29 @@
     <ClInclude Include="Dungeon.h">
       <Filter>Content\Environment</Filter>
     </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Content\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Content\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Monster.h">
+      <Filter>Content\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayableCharacter.h">
+      <Filter>Content\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Party.h">
+      <Filter>Content\Party</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CourseWork_TemporaryKey.pfx" />
+    <None Include="ClassDiagram.cd">
+      <Filter>Content</Filter>
+    </None>
   </ItemGroup>
 </Project>
