@@ -22,6 +22,9 @@ namespace CourseWork
 		int _width;
 		int _height;
 		int** _pattern;
+		const float Step = 20.0;
+		const float XCenter = 10.0;
+		const float YCenter = 10.0;
 		list<Environment*> _objects;
 		list<Monster*> _monsters;
 	};

@@ -198,7 +198,9 @@
     <ClInclude Include="Content\SampleFpsTextRenderer.h" />
     <ClInclude Include="Content\ShaderStructures.h" />
     <ClInclude Include="Dungeon.h" />
+    <ClInclude Include="DungeonInitializer.h" />
     <ClInclude Include="Environment.h" />
+    <ClInclude Include="Initializer.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Monster.h" />
     <ClInclude Include="Party.h" />
@@ -214,7 +216,9 @@
     <ClCompile Include="Content\SampleFpsTextRenderer.cpp" />
     <ClCompile Include="Content\Sample3DSceneRenderer.cpp" />
     <ClCompile Include="Dungeon.cpp" />
+    <ClCompile Include="DungeonInitialzier.cpp" />
     <ClCompile Include="Environment.cpp" />
+    <ClCompile Include="Initializer.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Monster.cpp" />
     <ClCompile Include="Party.cpp" />
