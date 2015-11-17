@@ -27,10 +27,9 @@ namespace CourseWork
 	class Environment
 	{
 	public:
-		Environment(Coordinates position, bool isObstacle);
+		Environment(bool isObstacle);
 		bool IsObstacle();
 	private:
-		Coordinates _position;
 		bool _isObstacle;
 	};
 }

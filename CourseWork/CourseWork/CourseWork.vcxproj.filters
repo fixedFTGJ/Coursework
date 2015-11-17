@@ -65,9 +65,6 @@
     <Filter Include="Content\Party">
       <UniqueIdentifier>{6d5f5921-f9cf-4c40-9f71-b83efe2d0c95}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Content\Initializers">
-      <UniqueIdentifier>{7c317eea-be2b-4c37-9261-0a448ad18f16}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -97,11 +94,8 @@
     <ClCompile Include="Party.cpp">
       <Filter>Content\Party</Filter>
     </ClCompile>
-    <ClCompile Include="DungeonInitialzier.cpp">
-      <Filter>Content\Initializers</Filter>
-    </ClCompile>
-    <ClCompile Include="Initializer.cpp">
-      <Filter>Content\Initializers</Filter>
+    <ClCompile Include="Floor.cpp">
+      <Filter>Content\Environment</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -132,11 +126,8 @@
     <ClInclude Include="Party.h">
       <Filter>Content\Party</Filter>
     </ClInclude>
-    <ClInclude Include="DungeonInitializer.h">
-      <Filter>Content\Initializers</Filter>
-    </ClInclude>
-    <ClInclude Include="Initializer.h">
-      <Filter>Content\Initializers</Filter>
+    <ClInclude Include="Floor.h">
+      <Filter>Content\Environment</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

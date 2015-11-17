@@ -3,9 +3,8 @@
 
 using namespace CourseWork;
 
-Environment::Environment(Coordinates position, bool isObstacle)
+Environment::Environment(bool isObstacle)
 {
-	_position = position;
 	_isObstacle = isObstacle;
 }
 

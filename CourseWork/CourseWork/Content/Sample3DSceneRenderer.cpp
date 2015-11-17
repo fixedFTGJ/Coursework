@@ -175,6 +175,24 @@ void Sample3DSceneRenderer::Render()
 		0,
 		0
 		);
+	context->IASetVertexBuffers(
+		0,
+		1,
+		m_vertexBuffer1.GetAddressOf(),
+		&stride,
+		&offset
+		);
+
+	context->IASetIndexBuffer(
+		m_indexBuffer1.Get(),
+		DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short).
+		0
+		);
+	context->DrawIndexed(
+		m_indexCount1,
+		0,
+		0
+		);
 }
 
 void Sample3DSceneRenderer::CreateDeviceDependentResources()
@@ -299,6 +317,77 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 				&indexBufferDesc,
 				&indexBufferData,
 				&m_indexBuffer
+				)
+			);
+	});
+
+	// Once both shaders are loaded, create the mesh.
+	auto createCubeTask1 = (createPSTask && createVSTask).then([this]() {
+
+		// Load mesh vertices. Each vertex has a position and a color.
+		static const VertexPositionColor cubeVertices1[] =
+		{
+			{ XMFLOAT3(-2.5f, -0.5f, -0.5f), XMFLOAT3(-2.0f, 0.0f, 0.0f) },
+			{ XMFLOAT3(-2.5f, -0.5f,  0.5f), XMFLOAT3(-2.0f, 0.0f, 1.0f) },
+			{ XMFLOAT3(-2.5f,  0.5f, -0.5f), XMFLOAT3(-2.0f, 1.0f, 0.0f) },
+			{ XMFLOAT3(-2.5f,  0.5f,  0.5f), XMFLOAT3(-2.0f, 1.0f, 1.0f) },
+			{ XMFLOAT3(-1.5f, -0.5f, -0.5f), XMFLOAT3(-1.0f, 0.0f, 0.0f) },
+			{ XMFLOAT3(-1.5f, -0.5f,  0.5f), XMFLOAT3(-1.0f, 0.0f, 1.0f) },
+			{ XMFLOAT3(-1.5f,  0.5f, -0.5f), XMFLOAT3(-1.0f, 1.0f, 0.0f) },
+			{ XMFLOAT3(-1.5f,  0.5f,  0.5f), XMFLOAT3(-1.0f, 1.0f, 1.0f) },
+		};
+
+		D3D11_SUBRESOURCE_DATA vertexBufferData1 = { 0 };
+		vertexBufferData1.pSysMem = cubeVertices1;
+		vertexBufferData1.SysMemPitch = 0;
+		vertexBufferData1.SysMemSlicePitch = 0;
+		CD3D11_BUFFER_DESC vertexBufferDesc1(sizeof(cubeVertices1), D3D11_BIND_VERTEX_BUFFER);
+		DX::ThrowIfFailed(
+			m_deviceResources->GetD3DDevice()->CreateBuffer(
+				&vertexBufferDesc1,
+				&vertexBufferData1,
+				&m_vertexBuffer1
+				)
+			);
+
+		// Load mesh indices. Each trio of indices represents
+		// a triangle to be rendered on the screen.
+		// For example: 0,2,1 means that the vertices with indexes
+		// 0, 2 and 1 from the vertex buffer compose the 
+		// first triangle of this mesh.
+		static const unsigned short cubeIndices1[] =
+		{
+			0,2,1, // -x
+			1,2,3,
+
+			4,5,6, // +x
+			5,7,6,
+
+			0,1,5, // -y
+			0,5,4,
+
+			2,6,7, // +y
+			2,7,3,
+
+			0,4,6, // -z
+			0,6,2,
+
+			1,3,7, // +z
+			1,7,5,
+		};
+
+		m_indexCount1 = ARRAYSIZE(cubeIndices1);
+
+		D3D11_SUBRESOURCE_DATA indexBufferData1 = { 0 };
+		indexBufferData1.pSysMem = cubeIndices1;
+		indexBufferData1.SysMemPitch = 0;
+		indexBufferData1.SysMemSlicePitch = 0;
+		CD3D11_BUFFER_DESC indexBufferDesc1(sizeof(cubeIndices1), D3D11_BIND_INDEX_BUFFER);
+		DX::ThrowIfFailed(
+			m_deviceResources->GetD3DDevice()->CreateBuffer(
+				&indexBufferDesc1,
+				&indexBufferData1,
+				&m_indexBuffer1
 				)
 			);
 	});
