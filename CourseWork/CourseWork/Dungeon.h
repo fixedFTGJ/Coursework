@@ -10,8 +10,8 @@ namespace CourseWork
 	class Dungeon
 	{
 	public:
-		Dungeon(list<Map> maps);
+		Dungeon(list<Map*> maps);
 	private:
-		list<Map> _maps;
+		list<Map*> _maps;
 	};
 }

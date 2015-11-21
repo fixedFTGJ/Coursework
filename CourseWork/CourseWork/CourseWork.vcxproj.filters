@@ -97,6 +97,9 @@
     <ClCompile Include="Floor.cpp">
       <Filter>Content\Environment</Filter>
     </ClCompile>
+    <ClCompile Include="DungeonInitializer.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
@@ -128,6 +131,9 @@
     </ClInclude>
     <ClInclude Include="Floor.h">
       <Filter>Content\Environment</Filter>
+    </ClInclude>
+    <ClInclude Include="DungeonInitializer.h">
+      <Filter>Content</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

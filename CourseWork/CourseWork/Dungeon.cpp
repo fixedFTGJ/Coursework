@@ -3,7 +3,7 @@
 
 using namespace CourseWork;
 
-Dungeon::Dungeon(list<Map> maps)
+Dungeon::Dungeon(list<Map*> maps)
 {
 	_maps = maps;
 }

@@ -17,7 +17,7 @@ namespace CourseWork
 	class Map
 	{
 	public:
-		Map(int width, int height, int** pattern, list<Environment*> objects, list<Monster*> monsters);
+		Map(int width, int height, int** pattern, list<Monster*> monsters);
 	private:
 		int _width;
 		int _height;
@@ -25,7 +25,6 @@ namespace CourseWork
 		const float Step = 20.0;
 		const float XCenter = 10.0;
 		const float YCenter = 10.0;
-		list<Environment*> _objects;
 		list<Monster*> _monsters;
 	};
 }
