@@ -8,6 +8,7 @@ namespace CourseWork
 	{
 	public:
 		Floor(bool isObstacle, float width);
+		float GetWidth() { return _width; };
 	private:
 		float _width;
 	};

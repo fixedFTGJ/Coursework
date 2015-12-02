@@ -4,6 +4,7 @@
 #include "ShaderStructures.h"
 #include "..\Common\StepTimer.h"
 #include "Dungeon.h"
+#include "DungeonInitializer.h"
 
 namespace CourseWork
 {
@@ -22,7 +23,7 @@ namespace CourseWork
 		void StopTracking();
 		bool IsTracking() { return m_tracking; }
 
-
+		void InitMapGraph();
 	private:
 		void Rotate(float radians);
 
@@ -43,14 +44,15 @@ namespace CourseWork
 		uint32	m_indexCount;
 
 		//
-		list<uint32> indexCounts;
-		list<Microsoft::WRL::ComPtr<ID3D11Buffer>> vertexBuffers;
-		list<Microsoft::WRL::ComPtr<ID3D11Buffer>> indexBuffers;
+		vector<uint32> indexCounts;
+		vector<Microsoft::WRL::ComPtr<ID3D11Buffer>> vertexBuffers;
+		vector<Microsoft::WRL::ComPtr<ID3D11Buffer>> indexBuffers;
 
 		// Variables used with the rendering loop.
 		bool	m_loadingComplete;
 		float	m_degreesPerSecond;
 		bool	m_tracking;
+		Dungeon* _dungeon;
 	};
 }
 

@@ -18,13 +18,19 @@ namespace CourseWork
 	{
 	public:
 		Map(int width, int height, int** pattern, list<Monster*> monsters);
+		int GetWidth() { return _width; };
+		int GetHeight() { return _height; };
+		int** GetPattern() { return _pattern; };
+		float GetXCenter() { return XCenter; };
+		float GetYCenter() { return YCenter; };
+		float GetStep() { return Step; };
 	private:
 		int _width;
 		int _height;
 		int** _pattern;
-		const float Step = 20.0;
-		const float XCenter = 10.0;
-		const float YCenter = 10.0;
+		const float Step = 1.0;
+		const float XCenter = 0.5;
+		const float YCenter = 0.5;
 		list<Monster*> _monsters;
 	};
 }

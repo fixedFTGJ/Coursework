@@ -1,6 +1,7 @@
 #pragma once
 
 #include <list>
+#include <vector>
 #include "Map.h"
 
 using namespace std;
@@ -10,8 +11,9 @@ namespace CourseWork
 	class Dungeon
 	{
 	public:
-		Dungeon(list<Map*> maps);
+		Dungeon(vector<Map*> maps);
+		vector<Map*> GetMaps();
 	private:
-		list<Map*> _maps;
+		vector<Map*> _maps;
 	};
 }

@@ -3,7 +3,12 @@
 
 using namespace CourseWork;
 
-Dungeon::Dungeon(list<Map*> maps)
+Dungeon::Dungeon(vector<Map*> maps)
 {
 	_maps = maps;
+}
+
+vector<Map*> Dungeon::GetMaps()
+{
+	return _maps;
 }

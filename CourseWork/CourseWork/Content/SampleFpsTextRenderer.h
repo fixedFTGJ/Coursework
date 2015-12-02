@@ -1,4 +1,4 @@
-﻿#pragma once
+﻿#pragma once 
 
 #include <string>
 #include "..\Common\DeviceResources.h"
@@ -6,7 +6,7 @@
 
 namespace CourseWork
 {
-	// Renders the current FPS value in the bottom right corner of the screen using Direct2D and DirectWrite.
+	// Renders the current FPS  value in the bottom right corner of the screen using Direct2D and DirectWrite.
 	class SampleFpsTextRenderer
 	{
 	public:

@@ -18,6 +18,8 @@ Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceRes
 {
 	CreateDeviceDependentResources();
 	CreateWindowSizeDependentResources();
+	DungeonInitializer m;
+	_dungeon = m.Initialize();
 }
 
 // Initializes view parameters when the window size changes.
@@ -58,8 +60,8 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 		);
 
 	// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis.
-	static const XMVECTORF32 eye = { 0.0f, 0.7f, 1.5f, 0.0f };
-	static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };
+	static const XMVECTORF32 eye = { 0.0f, 2.7f, 1.5f, 0.0f };
+	static const XMVECTORF32 at = { 0.0f, -0.1f, -5.0f, 0.0f };
 	static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
 	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
@@ -77,6 +79,161 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 
 		Rotate(radians);
 	}
+}
+
+void CourseWork::Sample3DSceneRenderer::InitMapGraph()
+{
+	VertexPositionColor wallFrag[8] = {
+	{ XMFLOAT3(-0.5f, -0.5f, -0.5f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
+	{ XMFLOAT3(-0.5f, -0.5f,  0.5f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+	{ XMFLOAT3(-0.5f,  0.5f, -0.5f), XMFLOAT3(0.0f, 1.0f, 0.0f) },
+	{ XMFLOAT3(-0.5f,  0.5f,  0.5f), XMFLOAT3(0.0f, 1.0f, 1.0f) },
+	{ XMFLOAT3(0.5f, -0.5f, -0.5f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+	{ XMFLOAT3(0.5f, -0.5f,  0.5f), XMFLOAT3(1.0f, 0.0f, 1.0f) },
+	{ XMFLOAT3(0.5f,  0.5f, -0.5f), XMFLOAT3(1.0f, 1.0f, 0.0f) },
+	{ XMFLOAT3(0.5f,  0.5f,  0.5f), XMFLOAT3(1.0f, 1.0f, 1.0f) }, };
+
+	VertexPositionColor floorFrag[4] = 
+	{
+		{ XMFLOAT3(0.0f, -0.5f, -0.5f), XMFLOAT3(0.0f, 0.0f, 0.0f) },
+		{ XMFLOAT3(0.0f, -0.5f,  0.5f), XMFLOAT3(0.0f, 0.0f, 1.0f) },
+		{ XMFLOAT3(1.0f, -0.5f, -0.5f), XMFLOAT3(1.0f, 0.0f, 0.0f) },
+		{ XMFLOAT3(1.0f, -0.5f,  0.5f), XMFLOAT3(1.0f, 0.0f, 1.0f) }
+	};
+
+	uint32 indexCount;
+
+	unsigned short cubeIndices[] =
+	{
+		0,2,1, // -x
+		1,2,3,
+
+		4,5,6, // +x
+		5,7,6,
+
+		0,1,5, // -y
+		0,5,4,
+
+		2,6,7, // +y
+		2,7,3,
+
+		0,4,6, // -z
+		0,6,2,
+
+		1,3,7, // +z
+		1,7,5,
+	};
+
+	unsigned short floorIndices[] =
+	{
+		0,1,2,
+		1,3,2
+	};
+
+	/*int k = 0;*/
+
+	D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
+	vertexBufferData.SysMemPitch = 0;
+	vertexBufferData.SysMemSlicePitch = 0;
+	CD3D11_BUFFER_DESC vertexBufferDesc(sizeof(wallFrag), D3D11_BIND_VERTEX_BUFFER);
+	CD3D11_BUFFER_DESC vertexBufferDesc1(sizeof(floorFrag), D3D11_BIND_VERTEX_BUFFER);
+
+	D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
+	indexBufferData.SysMemPitch = 0;
+	indexBufferData.SysMemSlicePitch = 0;
+	CD3D11_BUFFER_DESC indexBufferDesc(sizeof(cubeIndices), D3D11_BIND_INDEX_BUFFER);
+	CD3D11_BUFFER_DESC indexBufferDesc1(sizeof(floorIndices), D3D11_BIND_INDEX_BUFFER);
+	
+	/*vertexBuffers = { nullptr };
+	indexBuffers = { nullptr };*/
+
+	Microsoft::WRL::ComPtr<ID3D11Buffer> vtemp;
+	Microsoft::WRL::ComPtr<ID3D11Buffer> itemp;
+
+	for (int i = 0; i < _dungeon->GetMaps()[0]->GetWidth(); i++)
+		for (int j = 0; j < _dungeon->GetMaps()[0]->GetHeight(); j++)
+		{
+			if (_dungeon->GetMaps()[0]->GetPattern()[i][j] == wall)
+			{
+				wallFrag[0] = {
+					XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep(), 0.0f, i*_dungeon->GetMaps()[0]->GetStep()+1.0),
+					XMFLOAT3(0.0f, 1.0f, 0.0f)
+				};
+				wallFrag[1] = {
+					XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep(), 0.0, i*_dungeon->GetMaps()[0]->GetStep()),
+					XMFLOAT3(0.0f, 1.0f, 0.0f)
+				};
+				wallFrag[2] = {
+					XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep(), _dungeon->GetMaps()[0]->GetStep(), i*_dungeon->GetMaps()[0]->GetStep()+1.0),
+					XMFLOAT3(0.0f, 1.0f, 0.0f)
+				};
+				wallFrag[3] = {
+					XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep(), _dungeon->GetMaps()[0]->GetStep(), i*_dungeon->GetMaps()[0]->GetStep()),
+					XMFLOAT3(0.0f, 1.0f, 0.0f)
+				};
+				wallFrag[4] = {
+					XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep()+1.0, 0.0, i*_dungeon->GetMaps()[0]->GetStep() + 1.0),
+					XMFLOAT3(0.0f, 1.0f, 0.0f)
+				};
+				wallFrag[5] = {
+					XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep()+1.0, 0.0, i*_dungeon->GetMaps()[0]->GetStep()),
+					XMFLOAT3(0.0f, 1.0f, 0.0f)
+				};
+				wallFrag[6] = {
+					XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep()+1.0, _dungeon->GetMaps()[0]->GetStep(), i*_dungeon->GetMaps()[0]->GetStep() + 1.0),
+					XMFLOAT3(0.0f, 1.0f, 0.0f)
+				};
+				wallFrag[7] = {
+					XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep()+ 1.0, _dungeon->GetMaps()[0]->GetStep(), i*_dungeon->GetMaps()[0]->GetStep()),
+					XMFLOAT3(0.0f, 1.0f, 0.0f)
+				};
+
+				vertexBufferData.pSysMem = wallFrag;
+				indexBufferData.pSysMem = cubeIndices;
+				DX::ThrowIfFailed(
+					m_deviceResources->GetD3DDevice()->CreateBuffer(
+						&vertexBufferDesc,
+						&vertexBufferData,
+						&vtemp
+						)
+					);
+				DX::ThrowIfFailed(
+					m_deviceResources->GetD3DDevice()->CreateBuffer(
+						&indexBufferDesc,
+						&indexBufferData,
+						&itemp
+						)
+					);
+				indexCount = ARRAYSIZE(cubeIndices);
+			}
+			else
+			{
+				floorFrag[0] = { XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep(), 0.0f, i*_dungeon->GetMaps()[0]->GetStep()+1.0), XMFLOAT3(1.0f, 1.0f, 0.0f) };
+				floorFrag[1] = { XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep(), 0.0f, i*_dungeon->GetMaps()[0]->GetStep()), XMFLOAT3(1.0f, 1.0f, 0.0f) };
+				floorFrag[2] = { XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep()+1.0, 0.0f, i*_dungeon->GetMaps()[0]->GetStep()+1.0), XMFLOAT3(1.0f, 1.0f, 0.0f) };
+				floorFrag[3] = { XMFLOAT3(j*_dungeon->GetMaps()[0]->GetStep()+1.0, 0.0f, i*_dungeon->GetMaps()[0]->GetStep()),XMFLOAT3(1.0f, 1.0f, 0.0f) };
+				vertexBufferData.pSysMem = floorFrag;
+				indexBufferData.pSysMem = floorIndices;
+				DX::ThrowIfFailed(
+					m_deviceResources->GetD3DDevice()->CreateBuffer(
+						&vertexBufferDesc1,
+						&vertexBufferData,
+						&vtemp
+						)
+					);
+				DX::ThrowIfFailed(
+					m_deviceResources->GetD3DDevice()->CreateBuffer(
+						&indexBufferDesc1,
+						&indexBufferData,
+						&itemp
+						)
+					);
+				indexCount = ARRAYSIZE(floorIndices);
+			}
+			vertexBuffers.push_back(vtemp);
+			indexBuffers.push_back(itemp);
+			indexCounts.push_back(indexCount);
+		}
 }
 
 // Rotate the 3D cube model a set amount of radians.
@@ -130,7 +287,7 @@ void Sample3DSceneRenderer::Render()
 	// Each vertex is one instance of the VertexPositionColor struct.
 	UINT stride = sizeof(VertexPositionColor);
 	UINT offset = 0;
-	context->IASetVertexBuffers(
+/*	context->IASetVertexBuffers(
 		0,
 		1,
 		m_vertexBuffer.GetAddressOf(),
@@ -142,7 +299,7 @@ void Sample3DSceneRenderer::Render()
 		m_indexBuffer.Get(),
 		DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short).
 		0
-		);
+		);*/
 
 	context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -170,7 +327,7 @@ void Sample3DSceneRenderer::Render()
 		);
 
 	// Draw the objects.
-	context->DrawIndexed(
+	/*context->DrawIndexed(
 		m_indexCount,
 		0,
 		0
@@ -192,7 +349,29 @@ void Sample3DSceneRenderer::Render()
 		m_indexCount,
 		0,
 		0
-		);
+		);*/
+
+	for (int i = 0; i < _dungeon->GetMaps()[0]->GetHeight()*_dungeon->GetMaps()[0]->GetWidth(); i++)
+	{
+		context->IASetVertexBuffers(
+			0,
+			1,
+			vertexBuffers[i].GetAddressOf(),
+			&stride,
+			&offset
+			);
+
+		context->IASetIndexBuffer(
+			indexBuffers[i].Get(),
+			DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short).
+			0
+			);
+		context->DrawIndexed(
+			indexCounts[i],
+			0,
+			0
+			);
+	}
 }
 
 void Sample3DSceneRenderer::CreateDeviceDependentResources()
@@ -249,6 +428,7 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 				)
 			);
 	});
+
 
 	// Once both shaders are loaded, create the mesh.
 	auto createCubeTask = (createPSTask && createVSTask).then([this] () {
@@ -319,6 +499,10 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 				&m_indexBuffer
 				)
 			);
+
+		//
+		InitMapGraph();
+		//
 	});
 
 	// Once the cube is loaded, the object is ready to be rendered.

@@ -11,7 +11,7 @@ DungeonInitializer::DungeonInitializer()
 Dungeon* DungeonInitializer::Initialize()
 {
 	Map* loadedMap;
-	list<Map*> maps;
+	vector<Map*> maps;
 	list<Monster*> monsterList;
 	int** pattern1 = new int*[MapWidth];
 	/*int** pattern2 = new int*[MapWidth];
@@ -27,13 +27,13 @@ Dungeon* DungeonInitializer::Initialize()
 	pattern1[5] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
 	pattern1[6] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
 	pattern1[7] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
-	pattern1[8] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
-	pattern1[9] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
+	pattern1[8] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
+	pattern1[9] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
 	pattern1[10] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
 	pattern1[11] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
 	pattern1[12] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
 	pattern1[13] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
-	pattern1[14] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
+	pattern1[14] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
 	pattern1[15] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
 	pattern1[16] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};
 	pattern1[17] = new int[MapWidth] {wall, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, floor, wall};

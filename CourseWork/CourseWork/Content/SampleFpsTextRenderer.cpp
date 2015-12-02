@@ -20,7 +20,7 @@ SampleFpsTextRenderer::SampleFpsTextRenderer(const std::shared_ptr<DX::DeviceRes
 			DWRITE_FONT_WEIGHT_LIGHT,
 			DWRITE_FONT_STYLE_NORMAL,
 			DWRITE_FONT_STRETCH_NORMAL,
-			32.0f,
+			20.0f,
 			L"en-US",
 			&m_textFormat
 			)
