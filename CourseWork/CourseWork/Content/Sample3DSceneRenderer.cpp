@@ -77,7 +77,8 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 		double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
 		float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
 
-		Rotate(radians);
+		Rotate(90.0);
+		//Rotate(radians);
 	}
 }
 
@@ -254,7 +255,8 @@ void Sample3DSceneRenderer::TrackingUpdate(float positionX)
 	if (m_tracking)
 	{
 		float radians = XM_2PI * 2.0f * positionX / m_deviceResources->GetOutputSize().Width;
-		Rotate(radians);
+		//Rotate(radians);
+		Rotate(90.0);
 	}
 }
 
