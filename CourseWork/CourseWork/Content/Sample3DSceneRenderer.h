@@ -1,10 +1,11 @@
 ﻿#pragma once
 
-#include "..\Common\DeviceResources.h"
 #include "ShaderStructures.h"
-#include "..\Common\StepTimer.h"
 #include "Dungeon.h"
 #include "DungeonInitializer.h"
+#include "VSD3DStarter.h"
+
+using namespace VSD3DStarter;
 
 namespace CourseWork
 {
@@ -24,13 +25,16 @@ namespace CourseWork
 		bool IsTracking() { return m_tracking; }
 
 		void InitMapGraph();
+		void OnKeyDown(
+			_In_ Windows::UI::Core::CoreWindow^ sender,
+			_In_ Windows::UI::Core::KeyEventArgs^ args
+			);
 	private:
 		void Rotate(float radians);
 
 	private:
 		// Cached pointer to device resources.
 		std::shared_ptr<DX::DeviceResources> m_deviceResources;
-
 		// Direct3D resources for cube geometry.
 		Microsoft::WRL::ComPtr<ID3D11InputLayout>	m_inputLayout;
 		Microsoft::WRL::ComPtr<ID3D11Buffer>		m_vertexBuffer;
@@ -42,17 +46,21 @@ namespace CourseWork
 		// System resources for cube geometry.
 		ModelViewProjectionConstantBuffer	m_constantBufferData;
 		uint32	m_indexCount;
-
+		Microsoft::WRL::ComPtr<ID3D11Buffer> m_v;
+		int m_i;
 		//
 		vector<uint32> indexCounts;
 		vector<Microsoft::WRL::ComPtr<ID3D11Buffer>> vertexBuffers;
 		vector<Microsoft::WRL::ComPtr<ID3D11Buffer>> indexBuffers;
 
 		// Variables used with the rendering loop.
+		Camera cam;
 		bool	m_loadingComplete;
 		float	m_degreesPerSecond;
 		bool	m_tracking;
 		Dungeon* _dungeon;
+		//
+		
 	};
 }
 

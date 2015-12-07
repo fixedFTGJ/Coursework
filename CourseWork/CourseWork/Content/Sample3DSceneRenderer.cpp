@@ -1,12 +1,28 @@
 ﻿#include "pch.h"
 #include "Sample3DSceneRenderer.h"
-
+#include "Header.h"
 #include "..\Common\DirectXHelper.h"
 
 using namespace CourseWork;
-
 using namespace DirectX;
 using namespace Windows::Foundation;
+using namespace VSD3DStarter;
+using namespace Windows::UI::Core;
+using namespace Windows::System;
+using namespace Windows::Foundation;
+using namespace Windows::Devices::Input;
+
+using namespace Windows::ApplicationModel;
+using namespace Windows::ApplicationModel::Activation;
+using namespace Windows::ApplicationModel::Core;
+using namespace Windows::ApplicationModel::Store;
+using namespace Windows::Graphics::Display;
+using namespace Windows::Storage;
+using namespace Windows::UI::Input;
+using namespace Windows::UI::ViewManagement;
+using namespace Windows::UI::Xaml;
+using namespace Windows::UI::Xaml::Media;
+using namespace Windows::System::Threading;
 
 // Loads vertex and pixel shaders from files and instantiates the cube geometry.
 Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceResources>& deviceResources) :
@@ -16,19 +32,35 @@ Sample3DSceneRenderer::Sample3DSceneRenderer(const std::shared_ptr<DX::DeviceRes
 	m_tracking(false),
 	m_deviceResources(deviceResources)
 {
-	CreateDeviceDependentResources();
-	CreateWindowSizeDependentResources();
 	DungeonInitializer m;
 	_dungeon = m.Initialize();
+	CreateDeviceDependentResources();
+	CreateWindowSizeDependentResources();
 }
 
+void Sample3DSceneRenderer::OnKeyDown(
+	__in CoreWindow^ sender,
+	__in KeyEventArgs^ args)
+{
+	Windows::System::VirtualKey Key;
+	Key = args->VirtualKey;
+
+	// figure out the command from the keyboard
+	/*if (Key == VirtualKey::W)		// forward
+		m_forward = true;
+	if (Key == VirtualKey::S)		// back
+		m_back = true;
+	if (Key == VirtualKey::A)		// left
+		m_left = true;
+	if (Key == VirtualKey::D)		// right
+		m_right = true;*/
+}
 // Initializes view parameters when the window size changes.
 void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 {
 	Size outputSize = m_deviceResources->GetOutputSize();
 	float aspectRatio = outputSize.Width / outputSize.Height;
 	float fovAngleY = 70.0f * XM_PI / 180.0f;
-
 	// This is a simple example of change that can be made when the app is in
 	// portrait or snapped view.
 	if (aspectRatio < 1.0f)
@@ -58,13 +90,14 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 		&m_constantBufferData.projection,
 		XMMatrixTranspose(perspectiveMatrix * orientationMatrix)
 		);
+	cam.SetPosition(XMFLOAT3(_dungeon->GetMaps()[0]->GetStartPosition().X*0.5f + 1.0f, 0.5f, _dungeon->GetMaps()[0]->GetStartPosition().Y*0.5f +1.0f));
+	cam.SetLookAt(XMFLOAT3(_dungeon->GetMaps()[0]->GetStartPosition().X*0.5f + 1.0f, 0.5f, _dungeon->GetMaps()[0]->GetStartPosition().Y*0.5f + 2.0f));
 
 	// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis.
-	static const XMVECTORF32 eye = { 0.0f, 2.7f, 1.5f, 0.0f };
-	static const XMVECTORF32 at = { 0.0f, -0.1f, -5.0f, 0.0f };
+	/*static const XMVECTORF32 eye = { 2.0f, 2.0f, 2.0f, 0.0f };
+	static const XMVECTORF32 at = { 0.0f, -0.1f, 0.0f, 0.0f };*/
 	static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
-
-	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
+	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(XMLoadFloat3(&cam.GetPosition()), XMLoadFloat3(&cam.GetLookAt()), up)));
 }
 
 // Called once per frame, rotates the cube and calculates the model and view matrices.
@@ -76,8 +109,13 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 		float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
 		double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
 		float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
-
-		Rotate(radians);
+	
+		XMMATRIX m = XMMatrixIdentity();
+		m = XMMatrixMultiply(m, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
+		//m = XMMatrixMultiply(m, XMMatrixRotationY(radians));
+		//m = XMMatrixMultiply(m, XMMatrixScaling(0.1f, 0.1f, 0.1f));
+		XMStoreFloat4x4(&m_constantBufferData.model, m);
+		//Rotate(radians);
 	}
 }
 
@@ -351,6 +389,16 @@ void Sample3DSceneRenderer::Render()
 		0
 		);*/
 
+	/*context->IASetVertexBuffers(
+		0,
+		1,
+		m_v.GetAddressOf(),
+		&stride,
+		&offset
+		);
+
+	context->Draw(m_i, 0);*/
+
 	for (int i = 0; i < _dungeon->GetMaps()[0]->GetHeight()*_dungeon->GetMaps()[0]->GetWidth(); i++)
 	{
 		context->IASetVertexBuffers(
@@ -502,6 +550,34 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 
 		//
 		InitMapGraph();
+
+		/*Coursework::ObjModel objModel;
+		if (objModel.LoadOBJ("Assets/Desktop.txt") == false)
+		{
+		}
+		m_i = objModel.GetTotalVerts();
+		VertexPositionColor* vertices = new VertexPositionColor[m_i];
+		float* vertsPtr = objModel.GetVertices();
+		//float* texCPtr = objModel.GetTexCoords();
+		for (int i = 0; i < m_i; i++)
+		{
+			vertices[i].pos = XMFLOAT3(*(vertsPtr + 0), *(vertsPtr + 1), *(vertsPtr + 2));
+			vertsPtr += 3;
+			vertices[i].color = XMFLOAT3(1.0f, 0.0f, 0.0f);
+			//texCPtr += 2;
+		}
+		D3D11_BUFFER_DESC vertexDesc1;
+		ZeroMemory(&vertexDesc1, sizeof(vertexDesc1));
+		vertexDesc1.Usage = D3D11_USAGE_DEFAULT;
+		vertexDesc1.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		vertexDesc1.ByteWidth = sizeof(VertexPositionColor) * m_i;
+		D3D11_SUBRESOURCE_DATA resourceData;
+		ZeroMemory(&resourceData, sizeof(resourceData));
+		resourceData.pSysMem = vertices;
+		m_deviceResources->GetD3DDevice()->CreateBuffer(&vertexDesc1, &resourceData,
+			&m_v);
+		delete[] vertices;
+		objModel.Release();*/
 		//
 	});
 

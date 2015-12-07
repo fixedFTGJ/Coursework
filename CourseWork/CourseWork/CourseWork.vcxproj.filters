@@ -65,6 +65,9 @@
     <Filter Include="Content\Party">
       <UniqueIdentifier>{6d5f5921-f9cf-4c40-9f71-b83efe2d0c95}</UniqueIdentifier>
     </Filter>
+    <Filter Include="DirectXTex">
+      <UniqueIdentifier>{ecd2985d-5ec7-4074-94a1-86e6c74bd3ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
@@ -98,6 +101,12 @@
       <Filter>Content\Environment</Filter>
     </ClCompile>
     <ClCompile Include="DungeonInitializer.cpp">
+      <Filter>Content</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTex\DDSTextureLoader.cpp">
+      <Filter>DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="Source.cpp">
       <Filter>Content</Filter>
     </ClCompile>
   </ItemGroup>
@@ -135,6 +144,15 @@
     <ClInclude Include="DungeonInitializer.h">
       <Filter>Content</Filter>
     </ClInclude>
+    <ClInclude Include="ppltasks_extra.h" />
+    <ClInclude Include="VSD3DStarter.h" />
+    <ClInclude Include="DirectXTex\DDSTextureLoader.h">
+      <Filter>DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="Header.h">
+      <Filter>Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\..\Program Files (x86)\Windows Kits\8.1\Include\um\dinput.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -144,5 +162,18 @@
     <None Include="ClassDiagram.cd">
       <Filter>Content</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <MeshContentTask Include="Assets\Desktop.fbx">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+    <MeshContentTask Include="Assets\gamelevel.fbx">
+      <Filter>Assets</Filter>
+    </MeshContentTask>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Assets\Desktop.txt">
+      <Filter>Assets</Filter>
+    </Text>
   </ItemGroup>
 </Project>
