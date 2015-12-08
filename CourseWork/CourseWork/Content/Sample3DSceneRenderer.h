@@ -24,6 +24,7 @@ namespace CourseWork
 		bool IsTracking() { return m_tracking; }
 
 		void InitMapGraph();
+		void InitInterface();
 	private:
 		void Rotate(float radians);
 
@@ -39,14 +40,21 @@ namespace CourseWork
 		Microsoft::WRL::ComPtr<ID3D11PixelShader>	m_pixelShader;
 		Microsoft::WRL::ComPtr<ID3D11Buffer>		m_constantBuffer;
 
+		Microsoft::WRL::ComPtr<ID3D11Buffer>		i_vertexBuffer;
+		Microsoft::WRL::ComPtr<ID3D11Buffer>		i_indexBuffer;
+
 		// System resources for cube geometry.
 		ModelViewProjectionConstantBuffer	m_constantBufferData;
 		uint32	m_indexCount;
+		uint32	i_indexCount;
 
 		//
 		vector<uint32> indexCounts;
 		vector<Microsoft::WRL::ComPtr<ID3D11Buffer>> vertexBuffers;
 		vector<Microsoft::WRL::ComPtr<ID3D11Buffer>> indexBuffers;
+
+		
+
 
 		// Variables used with the rendering loop.
 		bool	m_loadingComplete;

@@ -2,6 +2,7 @@
 #include "Sample3DSceneRenderer.h"
 
 #include "..\Common\DirectXHelper.h"
+#include <Windows.h>
 
 using namespace CourseWork;
 
@@ -28,13 +29,13 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 	Size outputSize = m_deviceResources->GetOutputSize();
 	float aspectRatio = outputSize.Width / outputSize.Height;
 	float fovAngleY = 70.0f * XM_PI / 180.0f;
-
+	
 	// This is a simple example of change that can be made when the app is in
 	// portrait or snapped view.
-	if (aspectRatio < 1.0f)
+	/*if (aspectRatio < 1.0f)
 	{
 		fovAngleY *= 2.0f;
-	}
+	}*/
 
 	// Note that the OrientationTransform3D matrix is post-multiplied here
 	// in order to correctly orient the scene to match the display orientation.
@@ -60,8 +61,8 @@ void Sample3DSceneRenderer::CreateWindowSizeDependentResources()
 		);
 
 	// Eye is at (0,0.7,1.5), looking at point (0,-0.1,0) with the up-vector along the y-axis.
-	static const XMVECTORF32 eye = { 0.0f, 2.7f, 1.5f, 0.0f };
-	static const XMVECTORF32 at = { 0.0f, -0.1f, -5.0f, 0.0f };
+	static const XMVECTORF32 eye = { 0.0f, 0.0f, -1.0f, 0.0f };
+	static const XMVECTORF32 at = { 0.0f, 0.0f, 1.0f, 0.0f };
 	static const XMVECTORF32 up = { 0.0f, 1.0f, 0.0f, 0.0f };
 
 	XMStoreFloat4x4(&m_constantBufferData.view, XMMatrixTranspose(XMMatrixLookAtRH(eye, at, up)));
@@ -77,7 +78,7 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 		double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
 		float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
 
-		Rotate(90.0);
+		Rotate(0.0f);
 		//Rotate(radians);
 	}
 }
@@ -237,6 +238,52 @@ void CourseWork::Sample3DSceneRenderer::InitMapGraph()
 		}
 }
 
+void CourseWork::Sample3DSceneRenderer::InitInterface() {
+	
+	VertexPositionColor interfaceFrag[4];
+
+	uint32 indexCount;
+
+	unsigned short interfaceIndices[] =
+	{
+		3,2,1,
+		3,1,0
+	};
+
+	D3D11_SUBRESOURCE_DATA vertexBufferData = { 0 };
+	vertexBufferData.SysMemPitch = 0;
+	vertexBufferData.SysMemSlicePitch = 0;
+	CD3D11_BUFFER_DESC vertexBufferDesc(sizeof(interfaceFrag), D3D11_BIND_VERTEX_BUFFER);
+
+	D3D11_SUBRESOURCE_DATA indexBufferData = { 0 };
+	indexBufferData.SysMemPitch = 0;
+	indexBufferData.SysMemSlicePitch = 0;
+	CD3D11_BUFFER_DESC indexBufferDesc(sizeof(interfaceIndices), D3D11_BIND_INDEX_BUFFER);
+
+	interfaceFrag[0] = { XMFLOAT3(-0.5, 0.5f, 0.0), XMFLOAT3(0.5f, 0.5f, 0.5f) };
+	interfaceFrag[1] = { XMFLOAT3(0.5, 0.5f, 0.0), XMFLOAT3(0.5f, 0.5f, 0.5f) };
+	interfaceFrag[2] = { XMFLOAT3(0.5, -0.5f, 0.0), XMFLOAT3(0.5f, 0.5f, 0.5f) };
+	interfaceFrag[3] = { XMFLOAT3(-0.5, -0.5f, 0.0), XMFLOAT3(0.5f, 0.5f, 0.5f) };
+
+	vertexBufferData.pSysMem = interfaceFrag;
+	indexBufferData.pSysMem = interfaceIndices;
+	DX::ThrowIfFailed(
+		m_deviceResources->GetD3DDevice()->CreateBuffer(
+			&vertexBufferDesc,
+			&vertexBufferData,
+			&i_vertexBuffer
+			)
+		);
+	DX::ThrowIfFailed(
+		m_deviceResources->GetD3DDevice()->CreateBuffer(
+			&indexBufferDesc,
+			&indexBufferData,
+			&i_indexBuffer
+			)
+		);
+	i_indexCount = ARRAYSIZE(interfaceIndices);
+}
+
 // Rotate the 3D cube model a set amount of radians.
 void Sample3DSceneRenderer::Rotate(float radians)
 {
@@ -256,7 +303,7 @@ void Sample3DSceneRenderer::TrackingUpdate(float positionX)
 	{
 		float radians = XM_2PI * 2.0f * positionX / m_deviceResources->GetOutputSize().Width;
 		//Rotate(radians);
-		Rotate(90.0);
+		Rotate(180.0f);
 	}
 }
 
@@ -329,29 +376,29 @@ void Sample3DSceneRenderer::Render()
 		);
 
 	// Draw the objects.
-	/*context->DrawIndexed(
-		m_indexCount,
-		0,
-		0
-		);
-	context->IASetVertexBuffers(
-		0,
-		1,
-		m_vertexBuffer.GetAddressOf(),
-		&stride,
-		&offset
-		);
+	//context->DrawIndexed(
+	//	m_indexCount,
+	//	0,
+	//	0
+	//	);
+	//context->IASetVertexBuffers(
+	//	0,
+	//	1,
+	//	m_vertexBuffer.GetAddressOf(),
+	//	&stride,
+	//	&offset
+	//	);
 
-	context->IASetIndexBuffer(
-		m_indexBuffer.Get(),
-		DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short).
-		0
-		);
-	context->DrawIndexed(
-		m_indexCount,
-		0,
-		0
-		);*/
+	//context->IASetIndexBuffer(
+	//	m_indexBuffer.Get(),
+	//	DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short).
+	//	0
+	//	);
+	//context->DrawIndexed(
+	//	m_indexCount,
+	//	0,
+	//	0
+	//	);
 
 	for (int i = 0; i < _dungeon->GetMaps()[0]->GetHeight()*_dungeon->GetMaps()[0]->GetWidth(); i++)
 	{
@@ -374,6 +421,27 @@ void Sample3DSceneRenderer::Render()
 			0
 			);
 	}
+
+
+
+	//context->IASetVertexBuffers(
+	//			0,
+	//			1,
+	//			i_vertexBuffer.GetAddressOf(),
+	//			&stride,
+	//			&offset
+	//			);
+
+	//		context->IASetIndexBuffer(
+	//			i_indexBuffer.Get(),
+	//			DXGI_FORMAT_R16_UINT, // Each index is one 16-bit unsigned integer (short).
+	//			0
+	//			);
+	//		context->DrawIndexed(
+	//			i_indexCount,
+	//			0,
+	//			0
+	//			);
 }
 
 void Sample3DSceneRenderer::CreateDeviceDependentResources()
@@ -504,6 +572,8 @@ void Sample3DSceneRenderer::CreateDeviceDependentResources()
 
 		//
 		InitMapGraph();
+		InitInterface();
+
 		//
 	});
 
@@ -522,6 +592,8 @@ void Sample3DSceneRenderer::ReleaseDeviceDependentResources()
 	m_constantBuffer.Reset();
 	m_vertexBuffer.Reset();
 	m_indexBuffer.Reset();
+	i_vertexBuffer.Reset();
+	i_indexBuffer.Reset();
 
 	for (auto buffer : vertexBuffers)
 		buffer.Reset();
