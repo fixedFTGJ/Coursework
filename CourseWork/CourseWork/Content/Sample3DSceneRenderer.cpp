@@ -109,12 +109,17 @@ void Sample3DSceneRenderer::Update(DX::StepTimer const& timer)
 		float radiansPerSecond = XMConvertToRadians(m_degreesPerSecond);
 		double totalRotation = timer.GetTotalSeconds() * radiansPerSecond;
 		float radians = static_cast<float>(fmod(totalRotation, XM_2PI));
+<<<<<<< HEAD
 	
 		XMMATRIX m = XMMatrixIdentity();
 		m = XMMatrixMultiply(m, XMMatrixTranslation(0.0f, 0.0f, 0.0f));
 		//m = XMMatrixMultiply(m, XMMatrixRotationY(radians));
 		//m = XMMatrixMultiply(m, XMMatrixScaling(0.1f, 0.1f, 0.1f));
 		XMStoreFloat4x4(&m_constantBufferData.model, m);
+=======
+
+		//Rotate(90.0);
+>>>>>>> origin/master
 		//Rotate(radians);
 	}
 }
@@ -293,6 +298,7 @@ void Sample3DSceneRenderer::TrackingUpdate(float positionX)
 	{
 		float radians = XM_2PI * 2.0f * positionX / m_deviceResources->GetOutputSize().Width;
 		Rotate(radians);
+		//Rotate(90.0);
 	}
 }
 
